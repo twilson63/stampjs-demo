@@ -14,10 +14,15 @@
   //stamps.count(asset).then((result) => (count = result.total));
   stamps.counts([asset]).then((results) => {
     console.log(results);
+    count = results[asset].total;
   });
   const increment = async () => {
-    const result = await stamps.stamp(asset);
-    console.log(result);
+    await arweaveWallet.connect(["ACCESS_ADDRESS", "DISPATCH"]);
+    const stamped = await stamps.hasStamped(asset);
+    if (!stamped) {
+      const result = await stamps.stamp(asset);
+      console.log(result);
+    }
     count = await stamps.count(asset).then((result) => result.total);
   };
 </script>
